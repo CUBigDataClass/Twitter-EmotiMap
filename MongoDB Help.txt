@@ -17,3 +17,7 @@ Running MongoDB:
 3) In the shell, type "use test" to select the test database
 4) Run the Firehose python script
 5) To monitor incoming tweets, in the bash, type "db.TweetsGeo.stats()"
+
+Useful link:
+
+http://docs.mongodb.org/manual/reference/method/js-database/
