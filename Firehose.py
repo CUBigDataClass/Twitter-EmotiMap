@@ -20,7 +20,7 @@ statuses = api.GetStreamSample()
 #		print pp.pprint(obj)
 #		break
 
- Iterate through all geolocated tweets
+#Iterate through all geolocated tweets
 for obj in statuses:
 	if 'text' in obj and 'coordinates' in obj and 'lang' in obj:
 		if obj['text'] != None and obj['coordinates'] != None and obj['lang'] == "en":
