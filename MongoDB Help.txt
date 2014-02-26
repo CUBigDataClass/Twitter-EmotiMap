@@ -9,6 +9,7 @@ Installing MongoDB:
 7) Type "db.createCollection("TweetsGeo")" to create the TweetsGeo collection
 8) Run the Firehose python script
 9) To monitor incoming tweets, in the bash, type "db.TweetsGeo.stats()"
+10) To prevent from having to navigate to the bin every time, type "export PATH=$PATH:/home/user/mongodb/mongodb-linux-x86_64-2.4.9/bin", or whatever the address to your bin is.
 
 Running MongoDB:
 
