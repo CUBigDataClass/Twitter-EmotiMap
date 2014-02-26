@@ -13,9 +13,12 @@ statuses = api.GetStreamSample()
 
 #Iterate through all geolocated tweets
 for obj in statuses:
-	if 'text' in obj and 'coordinates' in obj and 'lang' in obj and 'country_code' in obj:
-		if obj['text'] != None and obj['coordinates'] != None and obj['place']['country_code'] == "US" and obj['lang'] == "en":
-			db.TweetsGeo.insert(obj)
-			continue
+	if 'text' in obj and 'coordinates' in obj and 'lang' in obj and 'place' in obj:
+		place = obj['place']
+		if 	place != None and 'country_code' in place:
+			if obj['text'] != None and obj['coordinates'] != None and obj['place']['country_code'] == "US" and obj['lang'] == "en":
+				print "Tweet: %s\nLocation: (%f, %f)\n\n" % (obj['text'], obj['coordinates']['coordinates'][0], obj['coordinates']['coordinates'][1])
+				db.TweetsGeo.insert(obj)
+				continue
 			
 #print json.dumps(s)

@@ -19,6 +19,8 @@ Running MongoDB:
 4) Run the Firehose python script
 5) To monitor incoming tweets, in the bash, type "db.TweetsGeo.stats()"
 
-Useful link:
+Useful links:
 
-http://docs.mongodb.org/manual/reference/method/js-database/
+Mongo Documentation: http://docs.mongodb.org/manual/reference/method/js-database/
+Mac GUI: https://github.com/fotonauts/MongoHub-Mac
+Linux GUI: http://edgytech.com/umongo/
