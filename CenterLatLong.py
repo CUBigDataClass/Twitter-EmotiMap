@@ -2,7 +2,7 @@ import twitter
 import json
 import pprint
 import enchant
-
+import csv
 
 #still a work in progress, just have the geo-location being put into an array
 
@@ -20,3 +20,7 @@ for obj in tweet_json:
 
 print(geo)
 
+
+with open("LatLong.csv", "wb") as f:
+    writer = csv.writer(f)
+    writer.writerows(geo)
