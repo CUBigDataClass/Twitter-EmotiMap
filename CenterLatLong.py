@@ -8,7 +8,7 @@ import csv
 
 tweet_json = []
 
-with open('SampleMongoDb.json') as f:
+with open('SampleUS.json') as f:
     for line in f:
         tweet_json.append(json.loads(line))
 
@@ -24,3 +24,4 @@ print(geo)
 with open("LatLong.csv", "wb") as f:
     writer = csv.writer(f)
     writer.writerows(geo)
+    
