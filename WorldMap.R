@@ -1,3 +1,4 @@
+#This is old code
 library(maps)
 LatLong <- read.csv("~/Documents/School/Computing/Twitter-EmotiMap/LatLong.csv", header=F)
 PercentLit <- read.csv("~/Documents/School/Computing/Twitter-EmotiMap/PercentLit.csv", header=F)
