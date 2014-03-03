@@ -8,10 +8,28 @@ import csv
 
 #Temporarily import json from the sample Andrew posted from the MongoDB, future of #how to filter/process files has yet to been decided.
 tweet_json = []
-with open('BIGsampleUS.json') as f:
+with open('SampleUS.json') as f:
     for line in f:
-        tweet_json.append(json.loads(line))
-     
+            tweet_json.append(json.loads(line))
+
+#clean up the sample so non US tweets do not get through
+print(len(tweet_json))
+for obj in tweet_json:
+    if obj['lang'] != "en":
+        tweet_json.remove(obj)
+
+
+
+
+
+
+
+
+       
+
+#MapUS <- openmap(c(49.345786,-124.794409), c(24.7433195,-66.9513812))
+
+
 #Look at each tweet, extract its 'text' object, parse each 'text' object into it's #respective word list for analyzation of each word in the tweet   
 tweets = []
 count = 0
@@ -74,10 +92,37 @@ for obj in tweet_json:
     count = count+1
     geo.append(obj['coordinates']['coordinates'])
 
+print(geo[0][0])
+print(len(geo))
+print(geo[len(geo)-1][0])
+count = 1
+N = len(geo)
+i = 0
+newGeo = []
+for count in range(0,N-1):
+    #print(fuck)
+    #print(count)
+    newTag = 0
+    if geo[count][1] > 49.345786:
+        newTag = 1
+    elif geo[count][1] < 24.7433195:
+        newTag = 1
+    elif geo[count][0] > -66.9513812:
+       newTag = 1
+    elif geo[count][0] < -124.794409:
+       newTag = 1
+    if newTag != 1:
+        newGeo.append(geo[count])
+print(len(geo))
+print(len(newGeo))
+print(newGeo[6])
+#MapUS <- openmap(c(49.345786,-124.794409), c(24.7433195,-66.9513812))
+#for i in range(0, len(geo)-1)
+ 
 
 with open("LatLong.csv", "wb") as f:
     writer = csv.writer(f)
-    writer.writerows(geo)
+    writer.writerows(newGeo)
     
 with open("PercentLit.csv", "wb") as f:
     writer = csv.writer(f)
