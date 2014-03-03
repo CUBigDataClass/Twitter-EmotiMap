@@ -18,8 +18,6 @@ for obj in tweet_json:
     count = count+1
     geo.append(obj['coordinates']['coordinates'])
 
-print(geo)
-
 
 with open("LatLong.csv", "wb") as f:
     writer = csv.writer(f)
