@@ -92,12 +92,10 @@ for obj in tweet_json:
     count = count+1
     geo.append(obj['coordinates']['coordinates'])
 
-print(geo[0][0])
-print(len(geo))
-print(geo[len(geo)-1][0])
-count = 1
+
+
 N = len(geo)
-i = 0
+newPerclit = []
 newGeo = []
 for count in range(0,N-1):
     #print(fuck)
@@ -113,9 +111,10 @@ for count in range(0,N-1):
        newTag = 1
     if newTag != 1:
         newGeo.append(geo[count])
+        newPerclit.append(spellCount[count])
 print(len(geo))
 print(len(newGeo))
-print(newGeo[6])
+print(len(newPerclit))
 #MapUS <- openmap(c(49.345786,-124.794409), c(24.7433195,-66.9513812))
 #for i in range(0, len(geo)-1)
  
@@ -126,5 +125,5 @@ with open("LatLong.csv", "wb") as f:
     
 with open("PercentLit.csv", "wb") as f:
     writer = csv.writer(f)
-    writer.writerows(spellCount)
+    writer.writerows(newPerclit)
 
