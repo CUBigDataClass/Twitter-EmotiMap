@@ -17,8 +17,13 @@ for obj in statuses:
 		place = obj['place']
 		if 	place != None and 'country_code' in place:
 			if obj['text'] != None and obj['coordinates'] != None and obj['place']['country_code'] == "US" and obj['lang'] == "en":
-				print "Tweet: %s\nLocation: (%f, %f)\n\n" % (obj['text'], obj['coordinates']['coordinates'][0], obj['coordinates']['coordinates'][1])
-				db.TweetsGeo.insert(obj)
+				# Grab the user who created the tweet
+				print "Username: %s" % (obj['user']['name'])
+				# Record the tweet
+				print "Tweet: %s\nLocation: (%f, %f)\n" % (obj['text'], obj['coordinates']['coordinates'][0], obj['coordinates']['coordinates'][1])
+				t_id = {'id' : obj['id']}
+				db.TweetsGeo.update(t_id, obj, {'upsert':'true'})
+
 				continue
 			
 #print json.dumps(s)
