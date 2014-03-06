@@ -21,8 +21,7 @@ for obj in statuses:
 				print "Username: %s" % (obj['user']['name'])
 				# Record the tweet
 				print "Tweet: %s\nLocation: (%f, %f)\n" % (obj['text'], obj['coordinates']['coordinates'][0], obj['coordinates']['coordinates'][1])
-				t_id = {'id' : obj['id']}
-				db.TweetsGeo.update(t_id, obj, {'upsert':'true'})
+				db.TweetsGeo.update({'id' : obj['id']}, obj, True)
 
 				continue
 			
