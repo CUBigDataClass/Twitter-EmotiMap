@@ -8,7 +8,7 @@ import csv
 
 #Temporarily import json from the sample Andrew posted from the MongoDB, future of #how to filter/process files has yet to been decided.
 tweet_json = []
-with open('SampleUS.json') as f:
+with open('BigTweets.json') as f:
     for line in f:
             tweet_json.append(json.loads(line))
 
@@ -16,18 +16,7 @@ with open('SampleUS.json') as f:
 print(len(tweet_json))
 for obj in tweet_json:
     if obj['lang'] != "en":
-        tweet_json.remove(obj)
-
-
-
-
-
-
-
-
-       
-
-#MapUS <- openmap(c(49.345786,-124.794409), c(24.7433195,-66.9513812))
+        tweet_json.remove(obj)  
 
 
 #Look at each tweet, extract its 'text' object, parse each 'text' object into it's #respective word list for analyzation of each word in the tweet   
@@ -115,8 +104,6 @@ for count in range(0,N-1):
 print(len(geo))
 print(len(newGeo))
 print(len(newPerclit))
-#MapUS <- openmap(c(49.345786,-124.794409), c(24.7433195,-66.9513812))
-#for i in range(0, len(geo)-1)
  
 
 with open("LatLong.csv", "wb") as f:
