@@ -42,7 +42,7 @@ map <- autoplot(MapUS, expand = FALSE) + geom_point(aes(x = Lat, y = Long, color
 
 map
 
-ggsave("US_Literacy", dpi=600)
+ggsave("US_Literacy.png", dpi=600)
 ########################################################################
 
 
