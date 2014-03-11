@@ -35,15 +35,15 @@ geoFrame$Long = geoMerc$Long
 
 MapUS <- openmap(c(49.345786,-124.794409), c(24.7433195,-66.9513812), type = 'stamen-watercolor')
 map <- autoplot(MapUS, expand = FALSE) + geom_point(aes(x = Lat, y = Long, color = Perclit),
-                                                    data = geoFrame,size = 2)+#, color = alpha(rgb(97/255,77/255,140/255)),  
+                                                    data = geoFrame,alpha = .1, size = 10)+#, color = alpha(rgb(97/255,77/255,140/255)),  
                                                     
             theme(axis.line = element_blank(), axis.text.x = element_blank(),
       axis.text.y = element_blank(), axis.ticks = element_blank(),
-      axis.title.x = element_blank(), axis.title.y = element_blank())+scale_colour_gradient(low="yellow", high="red")
+      axis.title.x = element_blank(), axis.title.y = element_blank())+scale_colour_gradient(low="blue", high="red")
 
 map
 
-ggsave("US_Literacy_YR.png", dpi=600)
+ggsave("US_Literacy_BAYR_trans_5.png", dpi=600)
 ########################################################################
 
 
