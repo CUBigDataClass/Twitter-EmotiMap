@@ -22,7 +22,7 @@ for obj in tweet_json:
     if obj['lang'] != "en":
         tweet_json.remove(obj)  
 
-#parses each tweet for text object     
+#parses eac h tweet for text object     
 tweets = []
 count = 0
 for obj in tweet_json:
