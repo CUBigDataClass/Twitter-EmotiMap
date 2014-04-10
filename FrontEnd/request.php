@@ -6,12 +6,16 @@
 					 
 	require('arrays.php');
 	
+	// Functions
+	
 	function bad_params($param)
 	{
 		echo "Bad " . $param . " parameter. <a href=\"stats.html\">Go back</a>.";
 	};
-				 
-	if($request['type'] != "Literacy" && $request['type'] != "Emotion")
+	
+	// Request Handler
+	/*				 
+	if($request['type'] != "Literacy" && $request['type'] != "HashFreq" && $request['type'] != "WordFreq")
 		bad_params("type");
 		
 	else if($request['s_date'] != 2 && $request['s_date'] != 3 && $request['s_date'] != 4)
@@ -24,11 +28,11 @@
 		bad_params("date range");
 		
 	else if(!in_array($request['location'], $state_names))
-		bad_params("location");
-		
+		bad_params("location");*/
+	if(false) {echo "lolwut";}
 	else
 	{
-		// Do all the good shit here	
+		// Do all the good shit here
 	?>
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -68,8 +72,7 @@
           <ul class="nav navbar-nav">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
-            <li><a href="map.html">Map</a></li>
-            <li class="active"><a href="stats.html">Statistics</a></li>
+            <li class="active"><a href="stats.html">Map</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -109,13 +112,17 @@
     <div class="container-fluid" style="margin-top: 70px;">
         <form method="get" action="request.php#map">
         <div class="row">
-            <div class="col-md-offset-3 col-md-2">
+            <!--<div class="col-md-offset-3 col-md-2">-->
+	    <div class="col-md-offset-4 col-md-2">
                 <select class="form-control" name="type">
                     <option selected value="<?php echo $request['type']; ?>"><?php echo $request['type']; ?></option>
                     <option value="Literacy">Literacy</option>
-                    <option value="Emotion">Emotion</option>
+                    <!--<option value="Emotion">Emotion</option>-->
+                    <option value="EmojiFreq">Emoji Frequency</option>
+                    <option value="HashFreq">Hashtag Frequency</option>
                 </select>
             </div>
+	    <!--
             <div class="col-md-2">
                 <select class="form-control" name="s_date">
                     <option selected value="<?php echo $request['s_date']; ?>"><?php echo $months[$request['s_date']]; ?></option>
@@ -130,10 +137,17 @@
                     <option value="4">April</option>
                 </select>
             </div>
+	    -->
             <div class="col-md-2">
                 <select class="form-control" name="location">
                     <option selected value="<?php echo $request['location']; ?>"><?php echo $us_state_abbrevs_names[$request['location']]; ?></option>
-                    <option value="ALL">Entire U.S.</option>
+                    <option value="ALL">U.S.A.</option>
+                    <option value="DEN">Denver</option>
+                    <option value="NYC">New York City</option>
+                    <option value="NOR">New Orleans</option>
+                    <option value="OAK">Oakland</option>
+                    <option value="DET">Detroit</option>
+                    <!--<option value="ALL">Entire U.S.</option>
                     <option value="AL">Alabama</option> 
                     <option value="AK">Alaska</option> 
                     <option value="AZ">Arizona</option> 
@@ -183,7 +197,7 @@
                     <option value="WA">Washington</option> 
                     <option value="WV">West Virginia</option> 
                     <option value="WI">Wisconsin</option> 
-                    <option value="WY">Wyoming</option>
+                    <option value="WY">Wyoming</option>-->
                 </select>
             </div>
         </div>
@@ -202,11 +216,35 @@
                 <?php
 					// This is where we pass off our parameters to python and then render the map it sends back. For now, here's a static map:
 					
-					if($request['type'] == "Literacy" && $request['s_date'] == 2 && $request['e_date'] == 2 && $request['location'] == "ALL")
+					if($request['type'] == "Literacy" && $request['location'] == "ALL")
 					{
 						echo "<br/><br/><a name=\"map\"></a><h1 style=\"text-align:center\">" . $us_state_abbrevs_names[$request['location']] . "</h1><img class=\"map_render\" src=\"US_Literacy.png\">";
 					}
-					
+					else if($request['type'] == "Literacy" && $request['location'] == "OAK")
+					{
+						echo "<br/><br/><a name=\"map\"></a><h1 style=\"text-align:center\">Oakland</h1><img class=\"map_render\" src=\"Oakland.png\">";
+					}
+					else if($request['type'] == "Literacy" && $request['location'] == "DEN")
+                                        {
+                                                echo "<br/><br/><a name=\"map\"></a><h1 style=\"text-align:center\">Denver</h1><img class=\"map_render\" src=\"Denver.png\">";
+                                        }
+					else if($request['type'] == "Literacy" && $request['location'] == "NYC")
+                                        {
+                                                echo "<br/><br/><a name=\"map\"></a><h1 style=\"text-align:center\">New York City</h1><img class=\"map_render\" src=\"NYC.png\">";
+                                        }
+					else if($request['type'] == "Literacy" && $request['location'] == "DET")
+                                        {
+                                                echo "<br/><br/><a name=\"map\"></a><h1 style=\"text-align:center\">Detroit</h1><img class=\"map_render\" src=\"Detroit.png\">";
+                                        }					
+					else if($request['type'] == "Literacy" && $request['location'] == "NOR")
+                                        {
+                                                echo "<br/><br/><a name=\"map\"></a><h1 style=\"text-align:center\">New Orleans</h1><img class=\"map_render\" src=\"NewOrleans.png\">";
+                                        }
+					else if($request['type'] == "EmojiFreq" && $request['location'] == "ALL")
+                                        {
+                                                echo "<br/><br/><a name=\"map\"></a><h1 style=\"text-align:center\">Entire U.S.</h1><img class=\"map_render\" src=\"EmojiUS.png\">";
+                                        }
+
 					else
 						echo "<br/><br/><h1 style=\"text-align:center\">RENDER MAP HERE</h1>";
 				?>
