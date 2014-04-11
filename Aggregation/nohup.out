@@ -1,0 +1,30 @@
+nohup: EC2Firehose.py: No such file or directory
+Traceback (most recent call last):
+  File "FirehoseMongo.py", line 6, in <module>
+    client = MongoClient()
+  File "/Library/Python/2.7/site-packages/pymongo/mongo_client.py", line 352, in __init__
+    raise ConnectionFailure(str(e))
+pymongo.errors.ConnectionFailure: could not connect to localhost:27017: [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "FirehoseMongo.py", line 16, in <module>
+    for obj in statuses:
+  File "build/bdist.macosx-10.9-intel/egg/twitter.py", line 5095, in GetStreamSample
+  File "/Library/Python/2.7/site-packages/requests-2.2.1-py2.7.egg/requests/models.py", line 648, in iter_lines
+    decode_unicode=decode_unicode):
+  File "/Library/Python/2.7/site-packages/requests-2.2.1-py2.7.egg/requests/models.py", line 616, in generate
+    decode_content=True):
+  File "/Library/Python/2.7/site-packages/requests-2.2.1-py2.7.egg/requests/packages/urllib3/response.py", line 236, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+  File "/Library/Python/2.7/site-packages/requests-2.2.1-py2.7.egg/requests/packages/urllib3/response.py", line 183, in read
+    data = self._fp.read(amt)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/httplib.py", line 543, in read
+    return self._read_chunked(amt)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/httplib.py", line 585, in _read_chunked
+    line = self.fp.readline(_MAXLINE + 1)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/socket.py", line 476, in readline
+    data = self._sock.recv(self._rbufsize)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/ssl.py", line 241, in recv
+    return self.read(buflen)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/ssl.py", line 160, in read
+    return self._sslobj.read(len)
+KeyboardInterrupt
