@@ -8,7 +8,7 @@ import csv
 
 #Temporarily import json from the sample Andrew posted from the MongoDB, future of #how to filter/process files has yet to been decided.
 tweet_json = []
-with open('BigTweets.json') as f:
+with open('SmallTweets.json') as f:
     for line in f:
             tweet_json.append(json.loads(line))
 
@@ -25,6 +25,8 @@ count = 0
 for obj in tweet_json:
     count = count + 1
     tweets.append(obj['text'])
+
+
 
 #Initialize a list of lists to avoid error: "list index out of range"
 tweetWords = []
@@ -47,8 +49,9 @@ count = 0
 for obj in tweet_json:
     count = count+1
     words.append(obj['text'])
-    
-wordlist = []
+
+print(words)
+
 spellCount = []
 i = 0
 for obj in tweet_json:
@@ -73,6 +76,7 @@ for obj in tweet_json:
   
     litCount = trueCount/N
     spellCount.append([litCount])
+
 
 
 geo = []
