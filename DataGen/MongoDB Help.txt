@@ -1,0 +1,26 @@
+Installing MongoDB:
+
+1) http://docs.mongodb.org/manual/tutorial/install-mongodb-on-linux/
+2) Once installed, navigate to the mongo directory
+3) Run "sudo pip install pymongo" top import the python mongo library
+4) Start mongo by running "sudo ./mongod &"
+5) Start the mongo bash by running "sudo ./mongo"
+6) In the shell, type "use test" to create and select the test database
+7) Type "db.createCollection("TweetsGeo")" to create the TweetsGeo collection
+8) Run the Firehose python script
+9) To monitor incoming tweets, in the bash, type "db.TweetsGeo.stats()"
+10) To prevent from having to navigate to the bin every time, type "export PATH=$PATH:/home/user/mongodb/mongodb-linux-x86_64-2.4.9/bin", or whatever the address to your bin is.
+
+Running MongoDB:
+
+1) Start mongo by running "sudo ./mongod &"
+2) Start the mongo bash by running "sudo ./mongo"
+3) In the shell, type "use test" to select the test database
+4) Run the Firehose python script
+5) To monitor incoming tweets, in the bash, type "db.TweetsGeo.stats()"
+
+Useful links:
+
+Mongo Documentation: http://docs.mongodb.org/manual/reference/method/js-database/
+Mac GUI: https://github.com/fotonauts/MongoHub-Mac
+Linux GUI: http://edgytech.com/umongo/
