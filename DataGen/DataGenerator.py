@@ -355,7 +355,7 @@ def LatLongDist(lat1, lon1, lat2, lon2):
 ###########################################################################
   
 
-main('PercLit', 'LaPaloma')
+main('PercLit', 'Denver')
 
 
 
