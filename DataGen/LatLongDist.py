@@ -6,7 +6,8 @@ import math as m
 lo1 = m.radians(-90.05)
 lo2 = m.radians(-90.4850)
 la1 = m.radians(29.9667)
-la2 = m.radians(30.0750)
+la2 = m.radians(30.1750)
+
 
 
 dlon = abs(lo1-lo2)
