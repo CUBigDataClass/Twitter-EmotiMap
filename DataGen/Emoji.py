@@ -10,7 +10,7 @@ import numpy as np
 import itertools
 from nltk.corpus import stopwords
 
-
+#Entire US
 #loads tweets into python dicts
 tweet_json = []
 with open('BigTweets.json') as f:
