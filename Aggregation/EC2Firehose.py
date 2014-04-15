@@ -2,18 +2,22 @@
 
 import twitter
 import json
-from daemon import runner
-from pymongo import MongoClient
-client = MongoClient()
-db = client.test
+from kafka.client import KafkaClient
+from kafka.consumer import SimpleConsumer
+from kafka.producer import SimpleProducer
 
-class FirehoseMiner():
+
+client = KafkaClient("localhost:9092")
+producer = SimpleProducer(client)
+consumer = SimpleConsumer(client, "text-Tweets", "my-topic")
+
     #this is Dillon Fancher's API key
     api = twitter.Api(consumer_key='G1ztnAQmyriiOqcyt9pGQ', consumer_secret='TzNhT5oCWMMU5eIk6E61bgSuXQ7qDHuYv5EbYwDKQ', access_token_key='572163554-le5J2mX0lb5IMOdAVPyAkxQ8M24UIMIyQMafqyur', access_token_secret='EB9xZBqfRVuga9tUsrqiP5qf5PHCsvsGrm3UkHz3nyZPc', cache=None)
 
     while(True):
 	    statuses = api.GetStreamSample()
-	
+	    
+        
 	    #Iterate through all geolocated tweets
 	    for obj in statuses:
 		    if 'text' in obj and 'coordinates' in obj and 'lang' in obj and 'place' in obj:
@@ -23,13 +27,11 @@ class FirehoseMiner():
 					    # Grab the user who created the tweet
 					    # print "Username: %s" % (obj['user']['name'])
 					    # Record the tweet
-					    #print "Tweet: %s\nLocation: (%f, %f)\n" % (obj['text'], obj['coordinates']['coordinates'][0], obj['coordinates']['coordinates'][1])
-					    db.TweetsGeo.update({'id' : obj['id']}, obj, True)
-	
+					    #print "Tweet: %s\nLocation: (%f, %f)\n" % (obj['text'],                                                obj['coordinates']['coordinates'][0], obj['coordinates']['coordinates'][1])
+					    #db.TweetsGeo.update({'id' : obj['id']}, obj, True)
+	                    producer.send_message('my-topic', obj)
 					    continue
                         
-miner = FirehoseMiner()
-daemon_runner = runner.Daemonrunner(miner)
-daemon_runner.do_action()
-			
-#print json.dumps(s)
+        
+        for message in consumer:
+            print(message)
