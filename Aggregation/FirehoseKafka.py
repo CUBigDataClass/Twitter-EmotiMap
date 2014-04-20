@@ -1,6 +1,6 @@
 import twitter
 import json
-import threading, logging, time
+import time
 from kafka.client import KafkaClient
 from kafka.consumer import SimpleConsumer
 from kafka.producer import SimpleProducer
