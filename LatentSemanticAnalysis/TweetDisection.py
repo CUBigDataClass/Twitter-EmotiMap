@@ -11,6 +11,7 @@ import itertools
 from nltk.stem.lancaster import LancasterStemmer
 from nltk import word_tokenize
 from nltk.corpus import stopwords
+import getCity
 
 ##########################################################################
 ##########################################################################
@@ -20,7 +21,8 @@ def main():
     Tweets = '3tweet.json'
     tweet_text, tweet_geo = TweetParser(Tweets)
     tweet_clean_text = corpusGen(tweet_text)
-    
+    for tweet in tweet_geo:
+    	print getCity.getCity(tweet[0],tweet[1]) 
     print(tweet_clean_text)
 ##########################################################################
 ##########################################################################
