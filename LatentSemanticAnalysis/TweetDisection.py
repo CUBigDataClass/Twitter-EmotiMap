@@ -4,11 +4,13 @@ import enchant
 import csv
 import nltk as nk
 import gensim as gsm
+from gensim import corpora, models, similarities
 import numpy as np
 import nltk as nltk
 import itertools
 from nltk.stem.lancaster import LancasterStemmer
 from nltk import word_tokenize
+from nltk.corpus import stopwords
 
 ##########################################################################
 ##########################################################################
@@ -17,7 +19,7 @@ from nltk import word_tokenize
 def main():
     Tweets = '3tweet.json'
     tweet_text, tweet_geo = TweetParser(Tweets)
-    tweet_clean_text = DocumentCleaner(tweet_text)
+    tweet_clean_text = corpusGen(tweet_text)
     
     print(tweet_clean_text)
 ##########################################################################
@@ -36,7 +38,6 @@ def main():
 
 ##########################################################################
 ##########################################################################
-
 
 def TweetParser(Tweets):
     
@@ -64,7 +65,45 @@ def TweetParser(Tweets):
 ##########################################################################           
 ##########################################################################            
 def corpusGen(tweet_text):
+    st = LancasterStemmer()
     
+    tweet_clean_text = []
+    for doc in tweet_text:
+        twitterWords = doc.split()
+        
+        #remove stop words using NLTK corpus
+        twitterWords = [word.lower() for word in twitterWords]
+        twitterWords = [w for w in twitterWords if not w in stopwords.words('english')]
+    
+        #remove custom list of stop words using experimentation
+        noiseWords = ["i'm", "like", "get", "don't", "it's", "go", "lol", "got", 
+                      "one", "know", "@", "good", "want", "can't", "need", "see", 
+                      "people", "going", "back", "really", "u", "think", "right",
+                      "never", "day", "time", "never", "that's", "even", ",", "."
+                      "make", "wanna", "you're", "come", "-", "still", "much", "someone",
+                      "today", "gonna", "new", "would", "take", "always", "im", "i'll",
+                      "best", "'", "feel", "getting", "say", "tonight", "last", "ever",
+                      "better", "i've", "look", "fucking", "way", "could", "!", "oh"
+                      "tomorrow", "night", "first", "miss", "ain't", "thank", "2", "bad"
+                      "little", "thanks", "something", "wait", "&amp;", "`", "oh", "make", 
+                      "bad", "let","stop", "well", "tell"]
+    
+        twitterWords = [w for w in twitterWords if not w in noiseWords]
+        twitterWords = [st.stem(w) for w in twitterWords]
+        twitterWords = ' '.join(twitterWords)
+        #this is for tokenizing, not working yet
+        #' '.join(twitterWords)
+        #twitterWords = word_tokenize(twitterWords)
+        tweet_clean_text.append(twitterWords)
+    
+    # remove words that appear only once
+    all_tokens = sum(tweet_clean_text, [])
+    tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1)
+    tweet_clean_text = [[word for word in tweet_clean_text if word not in tokens_once] for text in texts]
+
+       
+    return tweet_clean_text
+            
 ##########################################################################           
 ##########################################################################            
 
@@ -73,25 +112,6 @@ def corpusGen(tweet_text):
 ##########################################################################
 ##########################################################################
 
-#Tokenizes and de-Stems the documents of each tweet for better analysis
 
-##########################################################################
-##########################################################################
-#def DocumentCleaner(tweet_text):
-#    st = LancasterStemmer()
-#    count = 0
-#    for doc in tweet_text:
-#        count = count + 1
-#        text = tweet_text[count-1]
-#        tok_text = word_tokenize(text)
-#        tweet_text[count-1] = tok_text
-#        word_num = 0
-#        for word in tok_text:
-#            word_num = word_num + 1
-#            tweet_text[count-1][word_num-1] = st.stem(tweet_text[count-1][word_num-1])
-#    
-#    return tweet_text  
-##########################################################################
-##########################################################################  
 
 main()
