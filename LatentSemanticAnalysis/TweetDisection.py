@@ -19,6 +19,7 @@ def main():
     tweet_text, tweet_geo = TweetParser(Tweets)
     tweet_clean_text = DocumentCleaner(tweet_text)
     
+    print(tweet_clean_text)
 ##########################################################################
 ##########################################################################
 
@@ -60,6 +61,14 @@ def TweetParser(Tweets):
 
 
 
+##########################################################################           
+##########################################################################            
+def corpusGen(tweet_text):
+    
+##########################################################################           
+##########################################################################            
+
+
 
 ##########################################################################
 ##########################################################################
@@ -68,20 +77,20 @@ def TweetParser(Tweets):
 
 ##########################################################################
 ##########################################################################
-def DocumentCleaner(tweet_text):
-    st = LancasterStemmer()
-    count = 0
-    for doc in tweet_text:
-        count = count + 1
-        text = tweet_text[count-1]
-        tok_text = word_tokenize(text)
-        tweet_text[count-1] = tok_text
-        word_num = 0
-        for word in tok_text:
-            word_num = word_num + 1
-            tweet_text[count-1][word_num-1] = st.stem(tweet_text[count-1][word_num-1])
-    
-    return tweet_text  
+#def DocumentCleaner(tweet_text):
+#    st = LancasterStemmer()
+#    count = 0
+#    for doc in tweet_text:
+#        count = count + 1
+#        text = tweet_text[count-1]
+#        tok_text = word_tokenize(text)
+#        tweet_text[count-1] = tok_text
+#        word_num = 0
+#        for word in tok_text:
+#            word_num = word_num + 1
+#            tweet_text[count-1][word_num-1] = st.stem(tweet_text[count-1][word_num-1])
+#    
+#    return tweet_text  
 ##########################################################################
 ##########################################################################  
 
