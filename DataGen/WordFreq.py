@@ -12,7 +12,7 @@ from nltk.corpus import stopwords
 
 #loads tweets into python dicts
 tweet_json = []
-with open('BigTweets.json') as f:
+with open('1Tweet.json') as f:
     for line in f:
             tweet_json.append(json.loads(line))
                                             
@@ -57,33 +57,38 @@ noiseWords = ["i'm", "like", "get", "don't", "it's", "go", "lol", "got",
 
 twitterWords = [w for w in twitterWords if not w in noiseWords]
 
-print(twitterWords)
+
 #Not enough stop words taken out from NLTK corpus
 with open('customstopwords.csv', 'rb') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=';', quotechar='"')
 
 countsT = Counter(twitterWords)
-
-
+countJson = json.dumps(countsT)
+print(countJson)
+with open("1CleanTweet.json", "wb") as f:
+     json.dump(countsT,f)
+  #  writer.writerows(Rargs)
+print(countsT)
 lT = countsT.items()
+
 lT.sort(key = lambda item: item[1])
 
-topWords = []
-k = len(lT)
-for i in range(0, 28):
-    topWords.append(lT[k-i-1])
+#topWords = []
+#k = len(lT)
+#for i in range(0, 28):
+#    topWords.append(lT[k-i-1])
     
 
 
 #this graphs the word frequency
 #####################################
-labels, values = zip(*topWords)
-indexes = np.arange(len(labels))
-width = .1
+#labels, values = zip(*topWords)
+#indexes = np.arange(len(labels))
+#width = .1
 
-plt.bar(indexes, values, width)
-plt.xticks(indexes + width*.5, labels)
-plt.show()
+#plt.bar(indexes, values, width)
+#plt.xticks(indexes + width*.5, labels)
+#plt.show()
 ###################################
 
     
