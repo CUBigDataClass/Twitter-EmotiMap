@@ -95,11 +95,18 @@ def corpusGen(tweet_text):
         #' '.join(twitterWords)
         #twitterWords = word_tokenize(twitterWords)
         tweet_clean_text.append(twitterWords)
-    
+   
+	
+    newTweetList = []	
+    for tweet in tweet_clean_text:
+	newTweetList.append(tweet.split())
+
+    tweet_clean_text =  newTweetList
+
     # remove words that appear only once
     all_tokens = sum(tweet_clean_text, [])
     tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1)
-    tweet_clean_text = [[word for word in tweet_clean_text if word not in tokens_once] for text in texts]
+    tweet_clean_text = [[word for word in text if word not in tokens_once] for text in tweet_clean_text]
 
        
     return tweet_clean_text
