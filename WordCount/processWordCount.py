@@ -59,7 +59,7 @@ def tweetTokenizer(tweet_text):
                       "better", "i've", "look", "fucking", "way", "could", "!", "oh"
                       "tomorrow", "night", "first", "miss", "ain't", "thank", "2", "bad"
                       "little", "thanks", "something", "wait", "&amp;", "`", "oh", "make",
-                      "bad", "let","stop", "well", "tell"]
+                      "bad", "let","stop", "well", "tell", " "]
 
        #	twitterWords = [w for w in twitterWords if not w in noiseWords]
        #	twitterWords = [st.stem(w) for w in twitterWords]
