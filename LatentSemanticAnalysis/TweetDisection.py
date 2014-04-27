@@ -12,6 +12,11 @@ from nltk.stem.lancaster import LancasterStemmer
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 import getCity
+from collections import Counter
+from pymongo import MongoClient
+import pymongo
+client = MongoClient()
+db = client.test
 
 ##########################################################################
 ##########################################################################
@@ -20,10 +25,13 @@ import getCity
 def main():
     Tweets = '3tweet.json'
     tweet_text, tweet_geo = TweetParser(Tweets)
-    tweet_clean_text = corpusGen(tweet_text)
+    tweet_clean = corpusGen(tweet_text)
+    wordCounter(tweet_clean, tweet_geo)
+    
     for tweet in tweet_geo:
     	print getCity.getCity(tweet[0],tweet[1]) 
-    print(tweet_clean_text)
+   # print(tweet_clean_text)
+    
 ##########################################################################
 ##########################################################################
 
@@ -91,33 +99,52 @@ def corpusGen(tweet_text):
                       "bad", "let","stop", "well", "tell"]
     
         twitterWords = [w for w in twitterWords if not w in noiseWords]
-        twitterWords = [st.stem(w) for w in twitterWords]
-        twitterWords = ' '.join(twitterWords)
-        #this is for tokenizing, not working yet
-        #' '.join(twitterWords)
-        #twitterWords = word_tokenize(twitterWords)
-        tweet_clean_text.append(twitterWords)
-   
-	
-    newTweetList = []	
-    for tweet in tweet_clean_text:
-	newTweetList.append(tweet.split())
-
-    tweet_clean_text =  newTweetList
-
-    # remove words that appear only once
-    all_tokens = sum(tweet_clean_text, [])
-    tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1)
-    tweet_clean_text = [[word for word in text if word not in tokens_once] for text in tweet_clean_text]
-
-       
-    return tweet_clean_text
+        twitterWords = [w.encode("utf-8") for w in twitterWords]
+        #twitterWords = [st.stem(w) for w in twitterWords]
+        #twitterWords = ' '.join(twitterWords)
+        #tweet_clean_text.append(twitterWords)
+        print(twitterWords)    
+    return twitterWords
             
 ##########################################################################           
 ##########################################################################            
 
 
 
+##########################################################################
+##########################################################################
+def wordCounter(tweet_clean, tweet_geo):
+    #initialize a json document in the mongodb collection WordCount
+    #db.WordCount.update({'id':'USA'}, {'city': 'USA', 'data': [{'word':'start', 'count':0}, {'word':'end', 'count':0}]},True)
+    city = 'USA'
+    word = 'end'
+    word1 = 'poop'
+    tweet = []
+    tweet.append(word)
+    tweet.append(word1)
+    a=0
+    doc = db.WordCount.find_one({'city': city})
+    wordnums = len(doc['data'])
+    wordnum = str(wordnums+1)
+    
+    
+    for word in tweet:
+            
+            if not db.WordCount.find_one({'city': city, 'data.word':word}):
+                db.WordCount.update({'city': 'USA'}, {'$set': {'data.'+wordnum+'.word':word, 'data.'+wordnum+'.count':1}})
+                print('hi')
+            else:
+                for i in range(0, wordnums): 
+                    if db.WordCount.find_one({'city': city, 'data.' + str(i) + '.word':word}):
+                        db.WordCount.update({'city': 'USA'}, {'$inc': {'data.' + str(i) + '.count':1}})
+                
+                       
+                    
+            
+    
+    
+    
+    
 ##########################################################################
 ##########################################################################
 
