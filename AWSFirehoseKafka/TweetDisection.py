@@ -120,8 +120,8 @@ def wordCounter(tweet_clean, tweet_geo):
  
     city = cityGen.cityGen(tweet_geo[0][0],tweet_geo[0][1])
    
-    doc2 = db.WordCount.fine_one({'city':'USA'})
-    totalWords = len(doc2['data']) + 1
+    doc2 = db.WordCount.find_one({'city':'USA'})
+    totalWords = len(doc2['data'])
     doc = db.WordCount.find_one({'city': city})
     
     if doc is None:
@@ -129,13 +129,15 @@ def wordCounter(tweet_clean, tweet_geo):
         
     wordnums = len(doc['data'])
     wordnum = str(wordnums+1)
+    totalWord = str(totalWords +1)
     tweet = tweet_clean
  
     for word in tweet:
             wordnum = str(wordnums)
-            if not db.WordCount.find_one({'city': 'USA', 'data.word':word}):
+            totalWord = str(totalWords)
+            if not db.WordCount.find_one({'city': city, 'data.word':word}):
                 db.WordCount.update({'city': city}, {'$set': {'data.'+ wordnum +'.word':word, 'data.'+ wordnum +'.count':1}})
-                db.WordCount.update({'city': 'USA'}, {'$set': {'data.'+ totalWords +'.word':word, 'data.'+ totalWords +'.count':1}})
+                db.WordCount.update({'city': 'USA'}, {'$set': {'data.'+ totalWord +'.word':word, 'data.'+ totalWord +'.count':1}})
                 wordnums = wordnums + 1
                 totalWords = totalWords + 1
             else:
@@ -145,6 +147,13 @@ def wordCounter(tweet_clean, tweet_geo):
                 for j in range(0, totalWords):
                     if db.WordCount.find_one({'city': 'USA', 'data.' + str(j) + '.word':word}):
                         db.WordCount.update({'city': 'USA'}, {'$inc': {'data.' + str(j) + '.count':1}})
+           # if not db.WordCount.fine_one({'city': 'USA', 'data.word':word}):
+            #    db.WordCount.update({'city': 'USA'}, {'$set': {'data.'+ totalWord +'.word':word, 'data.'+ totalWord +'.count':1}})
+             #   totalWord = str(totalWords+1)
+                #for j in range(0, totalWords):
+                #    if db.WordCount.find_one({'city': 'USA', 'data.' + str(j) + '.word':word}):
+                #        db.WordCount.update({'city': city}, {'$inc': {'data.' + str(j) + '.count':1}})
+                        
                         
                         
             
