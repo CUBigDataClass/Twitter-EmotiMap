@@ -77,8 +77,8 @@ def processWordCount(tweet_text,tweet_geo):
 			json1_data[city] = {}
 		if word not in json1_data[city].keys():
 			json1_data[city][word] = 0
-	
 		json1_data[city][word] += 1
+    
 	#db.WordCount.remove()
 	db.WordCount2.update({},json1_data)
 	
@@ -100,8 +100,8 @@ testJson = '''
 ''' 
 
 
-#testTweet = '3tweet.json'
-#tweet_text, tweet_geo = TweetParser(testTweet)
-#processWordCount(tweet_text[0],tweet_geo[0])
+testTweet = '3tweet.json'
+tweet_text, tweet_geo = TweetParser(testTweet)
+processWordCount(tweet_text,tweet_geo)
 
 

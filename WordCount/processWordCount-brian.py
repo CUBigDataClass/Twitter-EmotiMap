@@ -70,16 +70,25 @@ def tweetTokenizer(tweet_text):
 def processWordCount(tweet_text,tweet_geo):
 	wordList = tweetTokenizer(tweet_text)	
 	city =  getCity.getCity(tweet_geo[0],tweet_geo[1])
-	print city, tweet_geo[1], tweet_geo[0]
+	print (city, tweet_geo[1], tweet_geo[0])
 	json1_data = MongoToJson()
-	for word in wordList:
-		if city not in json1_data:
-			json1_data[city] = {}
-		if word not in json1_data[data.word].keys():
-			json1_data[data.count] = 0
+	print(json1_data)
+    a = []
+    a.append("hi")
+    print(a)
+#    for word in wordList:
+#            json1_data[city] = {"UnitedStates"}
+#            json1_data[data.word] = word
+#            json1_data[data.count] = 0
+#            print(json1_data)
+#            if city not in json1_data:
+#		            json1_data[city] = {}
+#	                if word not in json1_data[data.word].keys():
+ #                       json1_data[data.count] = 0
 	
-		json1_data[data.count] += 1
-                print json1_data[data]
+#		json1_data[data.count] += 1
+               
+ #       print(json1_data)
 	#db.WordCount.remove()
 	#db.WordCount2.update({},json1_data)
 	
@@ -101,8 +110,8 @@ testJson = '''
 ''' 
 
 
-#testTweet = '3tweet.json'
-#tweet_text, tweet_geo = TweetParser(testTweet)
-#processWordCount(tweet_text[0],tweet_geo[0])
+testTweet = '3tweet.json'
+tweet_text, tweet_geo = TweetParser(testTweet)
+processWordCount(tweet_text[0],tweet_geo[0])
 
 

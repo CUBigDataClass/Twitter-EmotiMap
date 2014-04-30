@@ -12,7 +12,7 @@ def getCity(lat,long):
                 'Houston': [29.7628, 95.3831, 100],
                 'Philadelphia': [39.95,75.17,100],
                 'Washington': [38.8951, 77.0368,100],
-                'Maimi': [25.7877, 80.2241,100],
+                'Miami': [25.7877, 80.2241,100],
                 'Atlanta':[33.7550, 84.3900,100],
                 'Boston':[42.3581,71.0636,100],
                 'San Francisco':[37.7833,122.4167,100],
@@ -56,7 +56,7 @@ def getCity(lat,long):
             closestMetro = [miles,city]
 
     if closestMetro[1] == '':
-            closestMetro[1] = 'Other'
+            closestMetro[1] = 'USA'
 
     return closestMetro[1] 
             

@@ -56,7 +56,7 @@ def getCity(lat,long):
             closestMetro = [miles,city]
 
     if closestMetro[1] == '':
-            closestMetro[1] = 'Other'
+            closestMetro[1] = 'USA'
 
     return closestMetro[1] 
             
