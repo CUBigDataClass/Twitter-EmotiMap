@@ -12,9 +12,11 @@ from nltk.stem.lancaster import LancasterStemmer
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 import cityGen
+import getCity
 from collections import Counter
 from pymongo import MongoClient
 import pymongo
+
 client = MongoClient()
 db = client.test
 
@@ -28,7 +30,10 @@ def main(tweet):
     #Tweets = json.loads(string)
     #Tweets = [w.encode("utf-8") for w in Tweets]
     #print(Tweets)
-    
+  
+    #we need to define this more globally so we dont have to load the DB into a dict every time a tweet comes in 
+    Json = db.WordCount.find()
+    dictData = MongoToDict()        
     tweet_text, tweet_geo = TweetParser(Tweets)
     tweet_clean = corpusGen(tweet_text)
     wordCounter(tweet_clean, tweet_geo)
@@ -112,49 +117,56 @@ def corpusGen(tweet_text):
 ##########################################################################           
 ##########################################################################            
 
+def MongoToDict():
+        wordDict = {}
+        for x in Json:
+                city = x['city']
+                for y in x['data']:
+                        if city not in wordDict:
+                                wordDict[city] = {}
+                        if y is not None:
+                                if y['word'] is not None:
+                                        wordDict[city][y['word']] = y['count']
+
+        return wordDict
 
 
 ##########################################################################
 ##########################################################################
+
 def wordCounter(tweet_clean, tweet_geo):
- 
-    city = cityGen.cityGen(tweet_geo[0][0],tweet_geo[0][1])
-   
-    doc2 = db.WordCount.find_one({'city':'USA'})
-    totalWords = len(doc2['data'])
-    doc = db.WordCount.find_one({'city': city})
-    
-    if doc is None:
-        return
-        
-    wordnums = len(doc['data'])
-    wordnum = str(wordnums+1)
-    totalWord = str(totalWords +1)
-    tweet = tweet_clean
- 
-    for word in tweet:
-            wordnum = str(wordnums)
-            totalWord = str(totalWords)
-            if not db.WordCount.find_one({'city': city, 'data.word':word}):
-                db.WordCount.update({'city': city}, {'$set': {'data.'+ wordnum +'.word':word, 'data.'+ wordnum +'.count':1}})
-                db.WordCount.update({'city': 'USA'}, {'$set': {'data.'+ totalWord +'.word':word, 'data.'+ totalWord +'.count':1}})
-                wordnums = wordnums + 1
-                totalWords = totalWords + 1
-            else:
-                for i in range(0, wordnums): 
-                    if db.WordCount.find_one({'city': city, 'data.' + str(i) + '.word':word}):
-                        db.WordCount.update({'city': city}, {'$inc': {'data.' + str(i) + '.count':1}})
-                for j in range(0, totalWords):
-                    if db.WordCount.find_one({'city': 'USA', 'data.' + str(j) + '.word':word}):
-                        db.WordCount.update({'city': 'USA'}, {'$inc': {'data.' + str(j) + '.count':1}})
-           # if not db.WordCount.fine_one({'city': 'USA', 'data.word':word}):
-            #    db.WordCount.update({'city': 'USA'}, {'$set': {'data.'+ totalWord +'.word':word, 'data.'+ totalWord +'.count':1}})
-             #   totalWord = str(totalWords+1)
-                #for j in range(0, totalWords):
-                #    if db.WordCount.find_one({'city': 'USA', 'data.' + str(j) + '.word':word}):
-                #        db.WordCount.update({'city': city}, {'$inc': {'data.' + str(j) + '.count':1}})
-                        
-                        
+        city = getCity.getCity(tweet_geo[0][0],tweet_geo[0][1])
+        for word in tweet_clean:
+                if city not in dictData:
+                        dictData[city] = {}
+                if word not in dictData[city].keys():
+                        dictData[city][word] = 0
+                if 'USA' not in dictData:
+                        dictData['USA'] = 0
+                if word not in dictData['USA'].keys():
+                        dictData['USA'][word] = 0
+
+                dictData[city][word] += 1
+                if city != 'USA':
+                        dictData['USA'][word] += 1
+
+                doc = db.WordCount.find_one({'city': city})
+
+
+                wordnums = len(doc['data'])
+                wordnum = str(wordnums+1)
+
+
+                if db.find_one({"city":"USA","data.word":word}):
+                        db.WordCount.update({"city":"USA","data.word":word},{'$set':{'data.$.word':word, 'data.$.count':dictData['USA'][word]}},True)
+                else:
+                        db.WordCount.update({"city":"USA","data.word":{'$exists':True}},{'$set':{'data.' + wordnum + '.word':word, 'data.' + wordnum + '.count':dictData['USA'][word]}})
+
+                if db.WordCount.find_one({"city":city,"data.word":word}):
+                        db.WordCount.update({"city":city,"data.word":word},{'$set':{'data.$.word':word, 'data.$.count':dictData[city][word]}},True)
+                else:
+                        db.WordCount.update({"city":city,"data.word":{'$exists':True}},{'$set':{'data.' + wordnum + '.word':word, 'data.' + wordnum + '.count':dictData[city][word]}})
+                       
                         
             
                 
