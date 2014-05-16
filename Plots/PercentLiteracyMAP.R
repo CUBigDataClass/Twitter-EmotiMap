@@ -12,10 +12,13 @@ library(RgoogleMaps)
 #Set Working Directory
 setwd("~/Desktop/Twitter-EmotiMap/DataGen")
 
-PercentLit <- read.csv("PercentLit.csv")
+#PercentLit <- read.csv("PercentLit.csv")
+coGeo <- read.csv("colorado.csv")
+#datFrame <- data.frame(PercLit = PercentLit[1])
+geoFrame <- data.frame(Lat = coGeo[2], Long = coGeo[1])
 
-datFrame <- data.frame(PercLit = PercentLit[1])
-names(datFrame)[1] <- "Args"
+names(datFrame)[1] <- "Lat"
+names(datFrame)[2] <- "Long"
 
 MapUS <- get_map(location = c(lon = datFrame$Args[4], lat = datFrame$Args[3]), zoom = datFrame$Args[2])
 

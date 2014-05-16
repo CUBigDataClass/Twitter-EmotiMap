@@ -14,11 +14,22 @@ with open('BigTweets.json') as f:
 geo = []
 for obj in tweet_json:
     geo.append(obj['coordinates']['coordinates'])
-    
+  
+COgeo = []
+count = -1  
 for coord in geo:
-    
-    if cityGen.cityGen(coord[0], coord[1]) == 'New York':
-        print('fuck ya""')
+    count = count+1
+    if cityGen.cityGen(coord[0], coord[1]) == 'Denver':
+        COgeo.append(geo[count])
+
+print(COgeo[10])
+print(COgeo[17])
+print(COgeo[56])
+print(COgeo[108])
+        
+with open("colorado.csv","wb") as f:
+    writer = csv.writer(f)
+    writer.writerows(COgeo)
     
 
 
